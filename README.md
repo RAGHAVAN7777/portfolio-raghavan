@@ -1,16 +1,45 @@
-# React + Vite
+# 🪐 Archive_Node_Sync_v12.0
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> [!IMPORTANT]
+> **PRO-GENIUS PORTFOLIO ARCHIVAL SYSTEM**
+> Engineered for high-fidelity technical demonstration, featuring fluid "Smooth Relay" transitions and a dense, data-driven aesthetic.
 
-Currently, two official plugins are available:
+## 📡 System Overview
+This portfolio serves as a centralized archive for high-performance software modules. It is built on a **React v19** foundation, utilizing **Framer Motion** for deterministic UI transitions and **Tailwind CSS** for a minimalist, obsidian-themed aesthetic.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Integrated Stack
+- **Frontend Architecture**: React 19 (Functional Components, Hooks, Context)
+- **Animation Engine**: Framer Motion (Scroll-driven transforms, layout orchestration)
+- **Styling Paradigm**: Utility-first CSS via Tailwind.
+- **Form Intelligence**: Integrated Web3Forms with custom validation and rate-limiting logic.
+- **Routing & Routing**: Optimized for SPA delivery via Netlify Redirect Protocols.
 
-## React Compiler
+## 🔋 Core Modules
+- **VaultLock Secure SaaS**: Multi-tenant cloud storage with server-side quota governance.
+- **View My View P2P**: Browser-to-browser encrypted media tunneling via WebRTC.
+- **Zero Touch Vision**: Multimodal landmark inference using MediaPipe pipelines.
+- **Galaxy Cluster Mass Analysis**: SQL-based gravitational mass distribution modeling using SDSS data.
+- **JWST MIRI Spectral Extraction**: Integral field unit cube processing via Astropy.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 💿 Installation & Deployment
+```bash
+# Clone the repository
+git clone https://github.com/RAGHAVAN7777/portfolio-raghavan.git
 
-## Expanding the ESLint configuration
+# Install dependencies
+npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Run development node
+npm run dev
+
+# Compile for production
+npm run build
+```
+
+## 🚀 Deployment Status: STABLE
+The system is optimized for **Netlify** deployment. See `deployment_guide.md` for environmental configuration.
+
+---
+
+**CREATED • DESIGNED • IMPLEMENTED BY RAGHAVAN S**
+*Archival Node Sync Active // Zero_Overlap_Protocol_V12*
