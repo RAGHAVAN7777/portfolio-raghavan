@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import AnimatedSymbol from './AnimatedSymbol';
 import Magnetic from './Magnetic';
+import profileImg from '../assets/profile_suit.jpg';
 
 const Hero = () => {
     const [text, setText] = useState('');
@@ -124,7 +125,7 @@ const Hero = () => {
                             {/* Photo Frame */}
                             <div className="relative h-full w-full overflow-hidden bg-white/[0.02] border border-white/10 group-hover:border-cyan-500/50 transition-all duration-700">
                                 <motion.img
-                                    src="/src/assets/profile_suit.jpg"
+                                    src={profileImg}
                                     alt="Raghavan S"
                                     className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-105"
                                     style={{
