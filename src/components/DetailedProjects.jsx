@@ -1,6 +1,8 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useRef } from 'react';
 import { X } from 'lucide-react';
+import { FiLayout } from 'react-icons/fi';
+import Carousel from './Carousel';
 
 const DetailedProjects = ({ isOpen, onClose }) => {
     const containerRef = useRef(null);
@@ -64,144 +66,68 @@ const DetailedProjects = ({ isOpen, onClose }) => {
         }
     ];
 
+    const carouselItems = projects.map(project => ({
+        id: project.originalId,
+        title: project.title.replace(/_/g, ' '),
+        description: project.desc,
+        icon: <FiLayout className="carousel-icon" />,
+        tech: project.tech || [] // Fallback if tech isn't in this list
+    }));
+
     if (!isOpen) return null;
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/98 backdrop-blur-3xl overflow-y-auto overflow-x-hidden custom-scrollbar selection:bg-cyan-500/20"
-            ref={containerRef}
-            style={{ height: '100vh', width: '100vw' }}
-        >
-            {/* Header */}
-            <div className="sticky top-0 z-[120] flex justify-between items-center px-8 md:px-12 py-6 bg-black/80 backdrop-blur-2xl border-b border-white/5">
-                <div className="flex items-center gap-6">
-                    <div className="flex flex-col">
-                        <span className="text-[10px] font-black tracking-[0.6em] text-cyan-500 uppercase leading-none mb-1">Archive_Node_Sync_v12.x</span>
-                        <div className="flex items-center gap-3">
-                            <span className="text-white/20 font-mono text-[8px] tracking-[0.2em] uppercase">// SMOOTH_RELAY_ACTIVE</span>
-                            <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.5)]" />
-                            <span className="text-white/10 font-mono text-[8px] uppercase">Fluid_Transitions</span>
-                        </div>
-                    </div>
-                </div>
-                <button
-                    onClick={onClose}
-                    className="p-3 border border-white/10 bg-white/[0.03] hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all duration-300 group rounded-xl shadow-lg"
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[100] bg-black/98 backdrop-blur-3xl overflow-hidden custom-scrollbar selection:bg-cyan-500/20 flex flex-col"
+                    ref={containerRef}
                 >
-                    <X className="w-5 h-5 text-white/40 group-hover:text-cyan-400 transition-colors" />
-                </button>
-            </div>
-
-            {/* Content Container - No Gap, Fluid Relay */}
-            <div className="max-w-6xl mx-auto px-6 relative">
-                {projects.map((project, index) => (
-                    <SectionWrapper
-                        key={project.num}
-                        project={project}
-                        index={index}
-                        containerRef={containerRef}
-                    />
-                ))}
-            </div>
-
-            {/* Final Footer Spacer */}
-            <div className="h-[100vh]" />
-        </motion.div>
-    );
-};
-
-const SectionWrapper = ({ project, index, containerRef }) => {
-    const sectionRef = useRef(null);
-
-    // Track scroll specifically for THIS section
-    // offset: ["start end", "end start"] ensures we track from the moment it enters viewport
-    const { scrollYProgress } = useScroll({
-        container: containerRef,
-        target: sectionRef,
-        offset: ["start end", "end start"]
-    });
-
-    return (
-        <div ref={sectionRef} className="h-[120vh] relative w-full mb-[-20vh] z-10">
-            <ProjectCard
-                project={project}
-                scrollYProgress={scrollYProgress}
-                index={index}
-            />
-        </div>
-    );
-};
-
-const ProjectCard = ({ project, scrollYProgress, index }) => {
-    // Opacity: Appears from bottom (0.1 to 0.3), Stays solid (0.3 to 0.7), Moves up (0.7 to 0.9)
-    const opacity = useTransform(
-        scrollYProgress,
-        [0.1, 0.3, 0.7, 0.9],
-        [0, 1, 1, 0]
-    );
-
-    const scale = useTransform(
-        scrollYProgress,
-        [0.1, 0.3, 0.7, 0.9],
-        [0.95, 1, 1, 0.95]
-    );
-
-    const y = useTransform(
-        scrollYProgress,
-        [0.1, 0.3, 0.7, 0.9],
-        ["100px", "0px", "0px", "-100px"]
-    );
-
-    const blur = useTransform(
-        scrollYProgress,
-        [0.1, 0.3, 0.7, 0.9],
-        ["10px", "0px", "0px", "10px"]
-    );
-
-    return (
-        <motion.div
-            style={{
-                opacity,
-                scale,
-                y,
-                filter: `blur(${blur})`,
-                position: 'sticky',
-                top: '15vh',
-                zIndex: 10 + index
-            }}
-            className="w-full pointer-events-none"
-        >
-            <motion.div
-                className="bg-[#0b0b0b]/90 backdrop-blur-3xl border border-white/10 rounded-[3rem] overflow-hidden shadow-[0_80px_200px_-50px_rgba(34,211,238,0.1)] flex flex-col items-center justify-center p-12 md:p-24 relative group pointer-events-auto min-h-[60vh] max-w-5xl mx-auto"
-            >
-                {/* Visual Accent */}
-                <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
-
-                <div className="max-w-4xl w-full text-center space-y-12">
-                    <div className="flex flex-col items-center gap-6">
-                        <div className="px-5 py-2 bg-white/5 border border-white/10 rounded-full shadow-inner ring-1 ring-white/5">
-                            <span className="text-[12px] font-mono text-cyan-400 uppercase tracking-[0.4em] font-bold">{project.originalId}</span>
+                    {/* Header */}
+                    <div className="flex-none flex justify-between items-center px-8 md:px-12 py-6 bg-black/80 backdrop-blur-2xl border-b border-white/5">
+                        <div className="flex items-center gap-6">
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-black tracking-[0.6em] text-cyan-500 uppercase leading-none mb-1">Archive_Node_Sync_v12.x</span>
+                                <div className="flex items-center gap-3">
+                                    <span className="text-white/20 font-mono text-[8px] tracking-[0.2em] uppercase">// 3D_RELAY_ACTIVE</span>
+                                    <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.5)]" />
+                                    <span className="text-white/10 font-mono text-[8px] uppercase">Carousel_Transitions</span>
+                                </div>
+                            </div>
                         </div>
-                        <span className="text-[10px] font-mono text-white/20 uppercase tracking-[0.8em]">{project.client}</span>
+                        <button
+                            onClick={onClose}
+                            className="p-3 border border-white/10 bg-white/[0.03] hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all duration-300 group rounded-xl shadow-lg"
+                        >
+                            <X className="w-5 h-5 text-white/40 group-hover:text-cyan-400 transition-colors" />
+                        </button>
                     </div>
 
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tighter leading-tight uppercase italic select-none">
-                        {project.title.replace(/_/g, ' ')}
-                    </h2>
+                    {/* Carousel Container */}
+                    <div className="flex-grow flex items-center justify-center p-6 md:p-12 overflow-visible">
+                        <div className="w-full max-w-5xl">
+                            <Carousel
+                                items={carouselItems}
+                                baseWidth={600}
+                                loop={true}
+                                autoplay={false}
+                            />
+                        </div>
+                    </div>
 
-                    <p className="text-white/40 text-lg md:text-xl lg:text-xl font-mono leading-relaxed text-center mx-auto max-w-3xl px-8 border-l border-white/10">
-                        {project.desc}
-                    </p>
-                </div>
-
-                {/* Subtle Grain Overlay */}
-                <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
-            </motion.div>
-        </motion.div>
+                    {/* Footer Info */}
+                    <div className="flex-none py-8 text-center">
+                        <span className="text-[8px] font-mono text-white/5 uppercase tracking-[1em]">Scroll_or_Drag_to_Explore</span>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 };
+
+// Removing old wrapper components as they are no longer needed for the vertical scroll
 
 export default DetailedProjects;
